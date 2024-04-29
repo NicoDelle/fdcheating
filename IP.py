@@ -2,7 +2,7 @@ class IPaddress:
     """
     defines an IP address objects, and basic operations on them
     """
-    def __init__(self, ipAddress):
+    def __init__(self, ipAddress, netmask=-1):
         if isinstance(ipAddress, str):
             if ipAddress.count('.') != 3:
                 raise ValueError('Invalid IP address: it must be a string with 3 dots')
@@ -11,6 +11,7 @@ class IPaddress:
         
         self.ip = ipAddress
         self.ipBin = int(self.toBin()[2:], 2)
+        self.netmask = netmask
 
     def toBin(self):
         """
