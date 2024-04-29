@@ -40,4 +40,7 @@ class RouteTable():
                 matching[table_ip] = next_hop
             
         # TODO: anzichè un dizionario, crea una lista di tuple, e ordina per il numero di bit corrispondenti
+        # TODO: cambiare la modalità di caricamento degli ip della tabella in modo che vengano caricati iterativamente finché non viene inserito l'ip di default
+        # TODO: inserire oltre la tabella di instradamento anche gli ip (con relative netmask) delle interfacce, dando una priorità superiore nel controllo di instradamento
+        # TODO (facoltativo): stampare la tabella di routing bella formattata
         return matching
