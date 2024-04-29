@@ -39,4 +39,5 @@ class RouteTable():
                     break
                 matching[table_ip] = next_hop
             
+        # TODO: anzichè un dizionario, crea una lista di tuple, e ordina per il numero di bit corrispondenti
         return matching
