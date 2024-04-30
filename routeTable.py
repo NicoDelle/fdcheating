@@ -32,12 +32,16 @@ class RouteTable():
         """
         matching = {}
         for table_ip, next_hop in self.table.items():
-            result = '0b' + (bin(table_ip.ipBin & ip.ipBin)[2:]).zfill(32)
-            limit = max(ip.netmask, table_ip.netmask)
-            for i in range(2, limit):
-                if result[i] != bin(ip.ipBin)[i]:
-                    break
+            if bin(table_ip.ipBin)[:table_ip.netmask] == bin(ip.ipBin)[:table_ip.netmask]:
                 matching[table_ip] = next_hop
+                
+        #for table_ip, next_hop in self.table.items():
+        #    result = '0b' + (bin(table_ip.ipBin & ip.ipBin)[2:]).zfill(32)
+        #    limit = max(ip.netmask, table_ip.netmask)
+        #    for i in range(2, limit):
+        #        if result[i] != bin(ip.ipBin)[i]:
+        #           break
+        #        matching[table_ip] = next_hop
             
         # TODO: anzichè un dizionario, crea una lista di tuple, e ordina per il numero di bit corrispondenti
         # TODO: cambiare la modalità di caricamento degli ip della tabella in modo che vengano caricati iterativamente finché non viene inserito l'ip di default
