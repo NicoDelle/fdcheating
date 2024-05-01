@@ -12,6 +12,8 @@ table = ['192.170.123.4/' + str(bin(IP.IPaddress("255.255.255.0").ipBin).count('
          '191.138.160.0/' + str(bin(IP.IPaddress("255.255.224.0").ipBin).count('1')) + ' F', 
          '0.0.0.0/0' + ' G']
 ip = IP.IPaddress('191.138.163.13') # non è necessario fornire la netmask
+rt = routeTable.RouteTable(table)
+result = rt.match(ip)
 
 print("\n")
 for row in result:
