@@ -8,8 +8,8 @@ class IPaddress:
         else:
             raise ValueError('Invalid IP address: it must be a string with 3 dots')
         self.ipBin = int(self.toBin()[2:], 2)
-        self.netmask = ipAddress.split('/')[-1]
-
+        self.netmask = ipAddress.split('/')[-1].split(' ')[0]
+        self.nextop = ipAddress.split(' ')[-1]
     """
     defines an IP address objects, and basic operations on them
     
