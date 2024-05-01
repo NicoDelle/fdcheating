@@ -1,7 +1,18 @@
 class IPaddress:
+    def __init__(self, ipAddress):
+        self.ipraw = ipAddress
+        self.ip = ipAddress.split('/')[0]
+        if isinstance(self.ip, str):
+            if self.ip.count('.') != 3:
+                raise ValueError('Invalid IP address: it must be a string with 3 dots')
+        else:
+            raise ValueError('Invalid IP address: it must be a string with 3 dots')
+        self.ipBin = int(self.toBin()[2:], 2)
+        self.netmask = ipAddress.split('/')[-1].split(' ')[0]
+        self.nextop = ipAddress.split(' ')[-1]
     """
     defines an IP address objects, and basic operations on them
-    """
+    
     def __init__(self, ipAddress, netmask=-1):
         if isinstance(ipAddress, str):
             if ipAddress.count('.') != 3:
@@ -12,6 +23,7 @@ class IPaddress:
         self.ip = ipAddress
         self.ipBin = int(self.toBin()[2:], 2)
         self.netmask = netmask
+    """
 
     def toBin(self):
         """
