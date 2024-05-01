@@ -8,22 +8,11 @@ class IPaddress:
         else:
             raise ValueError('Invalid IP address: it must be a string with 3 dots')
         self.ipBin = int(self.toBin()[2:], 2)
-        self.netmask = ipAddress.split('/')[-1].split(' ')[0]
-        self.nextop = ipAddress.split(' ')[-1]
-    """
-    defines an IP address objects, and basic operations on them
-    
-    def __init__(self, ipAddress, netmask=-1):
-        if isinstance(ipAddress, str):
-            if ipAddress.count('.') != 3:
-                raise ValueError('Invalid IP address: it must be a string with 3 dots')
+        if len(ipAddress.split('/')) == 1:
+            self.netmask = -1
         else:
-            raise ValueError('Invalid IP address: it must be a string with 3 dots')
-        
-        self.ip = ipAddress
-        self.ipBin = int(self.toBin()[2:], 2)
-        self.netmask = netmask
-    """
+            self.netmask = ipAddress.split('/')[-1].split(' ')[0]
+
 
     def toBin(self):
         """
@@ -57,4 +46,4 @@ class IPaddress:
         # Format the binary string to add a dot every 8 characters
         formatted_binary_str = '.'.join(binary_str[i:i+8] for i in range(0, 32, 8))
 
-        return f"IP: {self.ip}\nBinary IP: {formatted_binary_str}"
+        return f"IP: {self.ip}\nBinary IP: {formatted_binary_str}\nNetmask: {self.netmask}"
