@@ -35,10 +35,12 @@ class RouteTable():
         """
         Given an IP address, return a list dict containing all matching ips, in the form of {ip: next_hop}. The ips are ordered by the number of matching bits
         """
-        matching = {}
-        for table_ip, next_hop in self.table.items():
-            if bin(table_ip.ipBin)[:table_ip.netmask] == bin(ip.ipBin)[:table_ip.netmask]:
-                matching[table_ip] = next_hop
+        netmask_list = []
+        for row in table_ip:
+            if bin(row.ipBin)[:int(row.netmask)] != bin(ip.ipBin)[:int(row.netmask)]:
+                table_ip.remove(row)
+            else:
+                netmask_list.append(int(row.netmask))
         
         posix=0
         netmask_list.sort(reverse=True)
@@ -49,14 +51,19 @@ class RouteTable():
                     table_ip.insert(posix, elem)
                     posix = posix + 1
                     break
-                
-        #for table_ip, next_hop in self.table.items():
-        #    result = '0b' + (bin(table_ip.ipBin & ip.ipBin)[2:]).zfill(32)
-        #    limit = max(ip.netmask, table_ip.netmask)
-        #    for i in range(2, limit):
-        #        if result[i] != bin(ip.ipBin)[i]:
-        #           break
-        #        matching[table_ip] = next_hop
+        """
+        matching = {}
+        for table_ip, next_hop in self.table.items():
+            if bin(table_ip.ipBin)[:table_ip.netmask] == bin(ip.ipBin)[:table_ip.netmask]:
+                matching[table_ip] = next_hop       
+        for table_ip, next_hop in self.table.items():
+            result = '0b' + (bin(table_ip.ipBin & ip.ipBin)[2:]).zfill(32)
+            limit = max(ip.netmask, table_ip.netmask)
+            for i in range(2, limit):
+                if result[i] != bin(ip.ipBin)[i]:
+                   break
+                matching[table_ip] = next_hop
+        """
             
         # TODO: anzichè un dizionario, crea una lista di tuple, e ordina per il numero di bit corrispondenti
         # TODO: cambiare la modalità di caricamento degli ip della tabella in modo che vengano caricati iterativamente finché non viene inserito l'ip di default
