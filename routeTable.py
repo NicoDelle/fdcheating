@@ -36,19 +36,20 @@ class RouteTable():
         Given an IP address, return a list dict containing all matching ips, in the form of {ip: next_hop}. The ips are ordered by the number of matching bits
         """
         netmask_list = []
+        routing = []
         for row in table_ip:
-            if bin(row.ipBin)[:int(row.netmask)] != bin(ip.ipBin)[:int(row.netmask)]:
-                table_ip.remove(row)
-            else:
+            print(row.ipraw)
+            if bin(row.ipBin)[2:int(row.netmask)+2] == bin(ip.ipBin)[2:int(row.netmask)+2]:
+                routing.append(row)
                 netmask_list.append(int(row.netmask))
         
         posix=0
         netmask_list.sort(reverse=True)
         for net in netmask_list:
-            for i in range(len(table_ip)):
-                if(int(table_ip[i].netmask) == net):
-                    elem = table_ip.pop(i)
-                    table_ip.insert(posix, elem)
+            for i in range(len(routing)):
+                if(int(routing[i].netmask) == net):
+                    elem = routing.pop(i)
+                    routing.insert(posix, elem)
                     posix = posix + 1
                     break
         """
