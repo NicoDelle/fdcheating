@@ -18,7 +18,7 @@ class RouteTable():
             if user_input == '':
                 break
             ip, netmask, next_hop = user_input.split(',')
-            self.table[IP.IPaddress(ip.strip(), netmmask=netmask)] = next_hop.strip()
+            self.table[IP.IPaddress(ip.strip(), netmask=int(netmask.strip()))] = next_hop.strip()
         
     def __str__(self):
         table_str = ''
@@ -33,8 +33,7 @@ class RouteTable():
         matching = {}
         for table_ip, next_hop in self.table.items():
             result = '0b' + (bin(table_ip.ipBin & ip.ipBin)[2:]).zfill(32)
-            limit = max(ip.netmask, table_ip.netmask)
-            for i in range(2, limit):
+            for i in range(2, table_ip.netmask):
                 if result[i] != bin(ip.ipBin)[i]:
                     break
                 matching[table_ip] = next_hop

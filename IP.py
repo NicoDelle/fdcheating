@@ -23,6 +23,14 @@ class IPaddress:
             ipBin += self.__padding(bin(int(word)).split('b')[1])
 
         return ipBin
+    
+    def matchWith(self, ip):
+        """
+        Given an IP addrss object, returns if the two Ips match in the range of the calling IP's netmask
+        """
+        if self.netmask == -1:
+            raise ValueError('Netmask not set for this IP address')
+        return (bin(self.ipBin & ip.ipBin)[2:]).zfill(32)[:self.netmask] == (bin(ip.ipBin)[2:]).zfill(32)[:self.netmask]
 
     def __padding(self, partialIP):
         l = len(partialIP)
