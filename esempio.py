@@ -4,10 +4,14 @@ File di esempio per l'utilizzo dei moduli IP e routeTable
 import IP
 import routeTable
 
-table = ['192.168.1.0/10', '192.128.0.0/6', '0.0.0.0/0']
-ip = IP.IPaddress('192.168.1.10') # non è necessario fornire la netmask
-rt = routeTable.RouteTable(table)
-result = rt.match(ip)
+table = ['192.170.123.4/' + str(bin(IP.IPaddress("255.255.255.0").ipBin).count('1')) + ' A', 
+         '192.170.124.4/' + str(bin(IP.IPaddress("255.255.255.0").ipBin).count('1')) + ' B',
+         '191.138.112.0/' + str(bin(IP.IPaddress("255.255.240.0").ipBin).count('1')) + ' C', 
+         '191.138.96.0/' + str(bin(IP.IPaddress("255.255.224.0").ipBin).count('1')) + ' D', 
+         '192.138.0.0/' + str(bin(IP.IPaddress("255.255.0.0").ipBin).count('1')) + ' E',
+         '191.138.160.0/' + str(bin(IP.IPaddress("255.255.224.0").ipBin).count('1')) + ' F', 
+         '0.0.0.0/0' + ' G']
+ip = IP.IPaddress('191.138.163.13') # non è necessario fornire la netmask
 
 print("\n")
 for row in result:
