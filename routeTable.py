@@ -23,13 +23,13 @@ class RouteTable():
             #ip, netmask, next_hop = user_input.split(',')
             #self.table[IP.IPaddress(ip.strip(), netmmask=netmask)] = next_hop.strip()
 
-    """
+    
     def __str__(self):
         table_str = ''
         for ip, next_hop in self.table.items():
-            table_str += f"{ip} -> {next_hop}\n"
+            table_str += f"{ip.ip} -> {next_hop}\n"
         return table_str
-    """
+    
     
     def match(self, ip):
         """

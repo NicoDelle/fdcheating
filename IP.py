@@ -11,7 +11,7 @@ class IPaddress:
         if len(ipAddress.split('/')) == 1:
             self.netmask = -1
         else:
-            self.netmask = ipAddress.split('/')[-1].split(' ')[0]
+            self.netmask = int(ipAddress.split('/')[-1].split(' ')[0])
 
 
     def toBin(self):
@@ -31,7 +31,7 @@ class IPaddress:
         """
         if self.netmask == -1:
             raise ValueError('Netmask not set for this IP address')
-        return (bin(self.ipBin & ip.ipBin)[2:]).zfill(32)[:self.netmask] == (bin(ip.ipBin)[2:]).zfill(32)[:self.netmask]
+        return (bin(self.ipBin & ip.ipBin)[2:]).zfill(32)[:self.netmask] == (bin(self.ipBin)[2:]).zfill(32)[:self.netmask]
 
     def __padding(self, partialIP):
         l = len(partialIP)
