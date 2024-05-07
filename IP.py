@@ -1,5 +1,5 @@
 class IPaddress:
-    def __init__(self, ipAddress):
+    def __init__(self, ipAddress: str):
         self.ipraw = ipAddress
         self.ip = ipAddress.split('/')[0]
         if isinstance(self.ip, str):
@@ -25,19 +25,20 @@ class IPaddress:
 
         return ipBin
     
-    def matchWith(self, ip):
+    def matchWith(self, ip)-> bool:
         """
         Given an IP addrss object, returns if the two Ips match in the range of the calling IP's netmask
         """
         if self.netmask == -1:
             raise ValueError('Netmask not set for this IP address')
-        return (bin(self.ipBin & ip.ipBin)[2:]).zfill(32)[:self.netmask] == (bin(self.ipBin)[2:]).zfill(32)[:self.netmask]
+        #return (bin(self.ipBin & ip.ipBin)[2:]).zfill(32)[:self.netmask] == (bin(self.ipBin)[2:]).zfill(32)[:self.netmask]
+        return (bin(self.ipBin)[2:].zfill(32))[:self.netmask] == (bin(ip.ipBin)[2:].zfill(32))[:self.netmask]
 
     def __padding(self, partialIP):
         l = len(partialIP)
         return ('0' * (8-l)) + partialIP
 
-    def __str__(self):
+    def __str__(self)-> str:
         binary_str = self.toBin()[2:]
 
         # Pad the binary string with zeros at the beginning if it's less than 32 bits
@@ -46,4 +47,13 @@ class IPaddress:
         # Format the binary string to add a dot every 8 characters
         formatted_binary_str = '.'.join(binary_str[i:i+8] for i in range(0, 32, 8))
 
-        return f"IP: {self.ip}\nBinary IP: {formatted_binary_str}\nNetmask: {self.netmask}"
+        netmaskPH = self.netmask
+        if self.netmask == -1:
+            netmaskPH = "Not set"
+        return f"IP: {self.ip}\nBinary IP: {formatted_binary_str}\nNetmask: {netmaskPH}"
+
+def quickMatch(net: IPaddress | str, ip: IPaddress | str) -> bool:
+    net = IPaddress(net)
+    ip = IPaddress(ip)
+
+    return net.matchWith(ip)
